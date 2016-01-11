@@ -30,13 +30,11 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
-
-
-
-
-
+% each column in X*all_theta' contains a result for a particular classifier
+% each row in X*all_theta' contains results of each classifiers
+% max(Matrix, [], 20) can returns [maxVals, maxPos]
+[~, p] = max(X*all_theta', [], 2);
 
 % =========================================================================
-
 
 end
