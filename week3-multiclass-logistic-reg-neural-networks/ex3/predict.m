@@ -24,13 +24,16 @@ X = [ones(m, 1) X];
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
-% calculate second layer weights
+% calculate sigmoid input
 z2 = X*Theta1';
+% calculate activation matrix (rows are activation vectors for each input sample)
 a2 = sigmoid(z2);
+% add bias unit
 a2 = [ones(m, 1) a2];
 
-% calculate output layer
+% calculate sigmoid input for output layer
 z3 = a2*Theta2';
+% calculate output activation matrix/vector
 a3 = sigmoid(z3);
 
 % pick the maximas and return in vector
