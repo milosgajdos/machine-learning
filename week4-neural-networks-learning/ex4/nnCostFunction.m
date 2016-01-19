@@ -46,16 +46,35 @@ z3 = a2*Theta2';
 % activation unit (this can be matrix or vector, depending on output of sigmoid)
 a3 = sigmoid(z3);
 
-% Matrix of all classes
-Y_k  = eye(num_labels);
-temp_cost = 0;
+%%%% ALTERNATIVE FOR-LOOP SOLUTION %%%%
+% Y_k  = eye(num_labels);
+% temp_cost = 0;
+% % iterate through all samples and compute cost of each output
+% for i = 1:m
+%    h_theta = a3(i, :);
+%    temp_cost = temp_cost + (log(h_theta)*Y_k(:,y(i)) + log(1-h_theta)*(1-Y_k(:,y(i))));
+% end
+% J = (-1/m)*temp_cost;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% iterate through all samples and compute cost of each output
-for i = 1:m
-   h_theta = a3(i, :);
-   temp_cost = temp_cost + (log(h_theta)*Y_k(:,y(i)) + log(1-h_theta)*(1-Y_k(:,y(i))));
-end
-J = (-1/m)*temp_cost;
+% Matrix of all classes -> (m x num_labels)
+tmp = eye(num_labels);
+Y_k  = (tmp(y,:));
+
+% compute the cost
+% INNER sum ouput cost per each y_k_i and h_theta_k(i) ie. per each sample
+% on a separate line
+% OUTER sum calculates weighted cost across all examples i.e. sums all samples
+% and weights them over the number of samples
+J = -(sum(sum((Y_k .* log(a3) + (1 - Y_k) .* log(1 - a3)), 2)))/m;
+
+% compute regularizer
+% sum per columns and then per rows of transition matrixes - could be done
+% the other way around, too i.e. sum per rows and then per columns
+regularizer = (lambda/(2*m))*(sum(sum(Theta1(:,2:end).^2)) + sum(sum(Theta2(:,2:end).^2)));
+
+% resulting 
+J = J + regularizer;
 
 % -------------------------------------------------------------
 
