@@ -100,13 +100,14 @@ for i = 1:m
     tmp = Theta2'*delta_3';
     % ignore the bias term and calculate error for layer 2
     delta_2 = tmp(2:end, :)' .* sigmoidGradient(z2_t);
-    % Transition matrix errors
+    % Transition matrix error accumulators
     DELTA_1 = DELTA_1 + delta_2'*x_t;
     DELTA_2 = DELTA_2 + delta_3'*a2_t;
 end
 
-Theta1_grad = (1/m)*DELTA_1;
-Theta2_grad = (1/m)*DELTA_2;
+% don't regularize the bias - we are replacing zero vector in Theta matrix
+Theta1_grad = (1/m)*DELTA_1 + (lambda/m)*[zeros(size(Theta1, 1), 1), Theta1(:,2:end)];
+Theta2_grad = (1/m)*DELTA_2 + (lambda/m)*[zeros(size(Theta2, 1), 1), Theta2(:,2:end)];
 
 % -------------------------------------------------------------
 
