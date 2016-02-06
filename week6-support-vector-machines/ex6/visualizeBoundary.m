@@ -16,9 +16,11 @@ for i = 1:size(X1, 2)
    vals(:, i) = svmPredict(model, this_X);
 end
 
+fprintf('Plotting the non-linear boundary\n');
+
 % Plot the SVM boundary
 hold on
-contour(X1, X2, vals, [0 0], 'Color', 'b');
+contour(X1, X2, vals, [1 1], 'Color', 'b');
 hold off;
 
 end
